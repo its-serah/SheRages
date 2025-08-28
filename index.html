@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SheRages</title>
+  <meta name="description" content="SheRages — community, training, and symptom logging to resist medical misogyny.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home" data-nav>SheRages</a>
+      <nav class="nav">
+        <a href="#home" data-nav>Home</a>
+        <a href="#community" data-nav>Community</a>
+        <a href="#simulator" data-nav>Gaslight Mode</a>
+        <a href="#symptoms" data-nav>Symptom Log</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app" class="container">
+
+    <!-- HOME / ABOUT -->
+    <section id="home" class="view" aria-label="Home">
+      <div class="hero">
+        <h1>SheRages</h1>
+        <p class="hero-tagline">Your voice, your evidence, your power.</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon community-icon"></div>
+          <h3>Community</h3>
+          <p>Connect with others, share experiences, and find support.</p>
+          <a class="button small" href="#community" data-nav>Join Now</a>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon training-icon"></div>
+          <h3>Gaslight Mode</h3>
+          <p>Level up your advocacy skills through interactive training.</p>
+          <a class="button small" href="#simulator" data-nav>Start Training</a>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon tracking-icon"></div>
+          <h3>Symptom Log</h3>
+          <p>Track symptoms and build evidence for your healthcare journey.</p>
+          <a class="button small" href="#symptoms" data-nav>Start Logging</a>
+        </div>
+      </div>
+
+      <div class="story-preview">
+        <div class="quote-bubble">
+          <p>"For five years, doctors met my pain with polite neglect. At twenty-two, I had a heart attack. This is my answer."</p>
+        </div>
+        <details class="read-more">
+          <summary>Read the full story</summary>
+          <div class="story-content">
+            <p>SheRages is what comes from that kind of pain. It's more than an app—it's hope, rage, and solidarity built into something practical.</p>
+            <p>Think of it as Duolingo, but teaching self-advocacy and resistance. Girls can practice standing up to dismissive doctors and build confidence for the real thing.</p>
+            <p>Together, we're building a living archive of how misogyny works in clinics and beyond. It's a firewall against medical gaslighting and a lifeline for those who need it most.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="quick-actions">
+        <button id="resetAllBtn" class="button danger small">Clear Data</button>
+      </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section id="community" class="view" aria-label="Community">
+      <h2>Community</h2>
+      <p>Post short updates. Classify by topic and location. Filter the feed by Saida, Sour, Beirut, Tripoli, or Jbeil.</p>
+
+      <form id="postForm" class="card form">
+        <label for="postText">Your post</label>
+        <textarea id="postText" maxlength="500" rows="3" placeholder="Share your story, ask a question, or offer support (max 500 characters)"></textarea>
+
+        <div class="row">
+          <div class="col">
+            <label for="postTopic">Topic</label>
+            <select id="postTopic"></select>
+          </div>
+          <div class="col">
+            <label for="postLocation">Location</label>
+            <select id="postLocation">
+              <option value="Saida">Saida</option>
+              <option value="Sour">Sour</option>
+              <option value="Beirut">Beirut</option>
+              <option value="Tripoli">Tripoli</option>
+              <option value="Jbeil">Jbeil</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="customTopicRow" class="hidden">
+          <label for="customTopic">New topic</label>
+          <input id="customTopic" type="text" placeholder="Enter a new topic name">
+        </div>
+
+        <div class="row end">
+          <button type="submit" class="button">Post</button>
+        </div>
+      </form>
+
+      <section class="card filters">
+        <h3>Filter feed</h3>
+        <div class="row">
+          <fieldset class="col">
+            <legend>Locations</legend>
+            <label><input type="checkbox" name="loc" value="Saida" checked> Saida</label>
+            <label><input type="checkbox" name="loc" value="Sour" checked> Sour</label>
+            <label><input type="checkbox" name="loc" value="Beirut" checked> Beirut</label>
+            <label><input type="checkbox" name="loc" value="Tripoli" checked> Tripoli</label>
+            <label><input type="checkbox" name="loc" value="Jbeil" checked> Jbeil</label>
+          </fieldset>
+          <fieldset class="col" id="topicFilters">
+            <legend>Topics</legend>
+            <!-- Topic checkboxes will be injected here -->
+          </fieldset>
+        </div>
+      </section>
+
+      <div id="feed" class="feed" aria-live="polite"></div>
+    </section>
+
+    <!-- SIMULATOR -->
+    <section id="simulator" class="view" aria-label="Gaslight Mode">
+      <div class="game-header">
+        <h2>Gaslight Mode</h2>
+        <p class="game-subtitle">Level up your advocacy skills!</p>
+      </div>
+
+      <div class="game-stats">
+        <div class="stat-card level-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-info">
+            <div class="stat-label">Level</div>
+            <div id="levelValue" class="stat-value">1</div>
+          </div>
+        </div>
+        
+        <div class="stat-card score-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-info">
+            <div class="stat-label">Score</div>
+            <div id="scoreValue" class="stat-value">0</div>
+          </div>
+        </div>
+        
+        <div class="stat-card streak-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-info">
+            <div class="stat-label">Streak</div>
+            <div id="streakValue" class="stat-value">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-label">Progress to Level <span id="nextLevel">2</span></div>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <div class="progress-text"><span id="currentXP">0</span> / <span id="neededXP">100</span> XP</div>
+      </div>
+
+      <div id="achievementAlert" class="achievement-alert hidden">
+        <div class="achievement-content">
+          <div class="achievement-icon">🎉</div>
+          <div class="achievement-text">
+            <div class="achievement-title"></div>
+            <div class="achievement-desc"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="simCard" class="card sim">
+        <div class="scenario-header">
+          <div class="scenario-difficulty" id="scenarioDifficulty">Easy</div>
+          <button id="resetGameBtn" class="button small outline">Reset</button>
+        </div>
+        <div id="scenarioText" class="scenario">Click Start Training to begin your journey!</div>
+        <div id="choices" class="choices"></div>
+        <div class="game-controls">
+          <button id="startSimBtn" class="button">Start Training</button>
+          <button id="nextSimBtn" class="button" disabled>Continue</button>
+        </div>
+        <div id="feedback" class="feedback" aria-live="polite"></div>
+      </div>
+
+      <div class="badges-section card">
+        <h3>Achievements</h3>
+        <div id="badgeGrid" class="badge-grid">
+          <!-- Badges will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <section class="card reminders">
+        <h3>Reminders</h3>
+        <p>Stay consistent. Choose a reminder schedule. Desktop notifications require permission and may not fire when the page is closed in this prototype. You can also add a calendar reminder.</p>
+        <div class="row">
+          <button id="enableNotifsBtn" class="button small">Enable desktop notifications</button>
+          <select id="reminderFreq">
+            <option value="none">No reminders</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+          </select>
+          <button id="saveReminderBtn" class="button small">Save</button>
+          <button id="downloadIcsBtn" class="button small outline">Download calendar reminder (.ics)</button>
+        </div>
+        <div id="reminderStatus" class="note"></div>
+      </section>
+
+      <div id="dueReminder" class="banner hidden">
+        Training reminder is due. Ready to practice?
+        <div class="row end">
+          <a href="#simulator" class="button">Resume</a>
+          <button id="snoozeBtn" class="button outline small">Snooze 1 day</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SYMPTOMS -->
+    <section id="symptoms" class="view" aria-label="Symptom Log">
+      <h2>Symptom Log</h2>
+      <p>Track symptoms, severity, and notes. Export as CSV to share with clinicians or to keep personal records.</p>
+
+      <form id="symForm" class="card form">
+        <div class="row">
+          <div class="col">
+            <label for="symDate">Date</label>
+            <input id="symDate" type="date">
+          </div>
+          <div class="col">
+            <label for="symName">Symptom</label>
+            <input id="symName" type="text" placeholder="Chest pain, fatigue, palpitations, etc.">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="symSeverity">Severity (1–10)</label>
+            <input id="symSeverity" type="number" min="1" max="10" value="5">
+          </div>
+          <div class="col">
+            <label for="symHeartRate">Heart rate (optional)</label>
+            <input id="symHeartRate" type="number" min="0" placeholder="bpm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="symBpSys">Systolic (optional)</label>
+            <input id="symBpSys" type="number" min="0" placeholder="mmHg">
+          </div>
+          <div class="col">
+            <label for="symBpDia">Diastolic (optional)</label>
+            <input id="symBpDia" type="number" min="0" placeholder="mmHg">
+          </div>
+        </div>
+        <label for="symNotes">Notes</label>
+        <textarea id="symNotes" rows="3" placeholder="Context, triggers, what helped, clinician responses, etc."></textarea>
+        <div class="row end">
+          <button type="submit" class="button">Log symptom</button>
+        </div>
+      </form>
+
+      <section class="card filters">
+        <h3>Filter</h3>
+        <div class="row">
+          <div class="col">
+            <label for="fromDate">From</label>
+            <input id="fromDate" type="date">
+          </div>
+          <div class="col">
+            <label for="toDate">To</label>
+            <input id="toDate" type="date">
+          </div>
+          <div class="col end align-end">
+            <button id="applySymFilterBtn" class="button small">Apply</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="row end">
+        <button id="exportCsvBtn" class="button outline small">Export CSV</button>
+      </div>
+
+      <div id="symList" class="sym-list"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>Prototype — data stored locally only. No emojis are used anywhere on this site.</small>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
+
