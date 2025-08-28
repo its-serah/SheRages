@@ -1,21 +1,21 @@
 /* SheRages styles */
 :root {
-  --bg: #fefcf7; /* warm cream background */
+  --bg: #E8EBED; /* Meringue background */
   --panel: #ffffff;
-  --text: #2d3748; /* soft dark text */
-  --muted: #718096;
-  --brand: #e53e3e; /* warm red - still strong but softer */
-  --brand-600: #c53030;
-  --accent: #87ceeb; /* baby blue */
-  --accent-soft: #b8e6ff; /* lighter baby blue */
-  --yellow: #ffeaa7; /* pastel yellow */
-  --yellow-soft: #fff5d1; /* very light yellow */
-  --border: #e2e8f0;
+  --text: #2C3F70; /* Blueberry text */
+  --muted: #6b7280;
+  --brand: #A5231C; /* Strawberry brand color */
+  --brand-600: #8B1E17; /* Darker strawberry */
+  --accent: #8089D2; /* Violet accent */
+  --accent-soft: #C8D4E5; /* Buttercream for soft accents */
+  --yellow: #F3E5AB; /* Warmer buttercream variant */
+  --yellow-soft: #F8F1D4; /* Very light buttercream */
+  --border: #C8D4E5; /* Buttercream borders */
   --success: #38a169;
   --warning: #d69e2e;
-  --danger: #e53e3e;
-  --pink: #fed7d7; /* soft pink for highlights */
-  --lavender: #e6fffa; /* very light mint/lavender */
+  --danger: #A5231C; /* Strawberry for danger */
+  --pink: #E8D7DC; /* Soft strawberry tint */
+  --lavender: #E8E9F0; /* Very light violet */
 }
 
 * { box-sizing: border-box; }
@@ -33,14 +33,54 @@ body {
 .site-header {
   position: sticky; top: 0; z-index: 50;
   background: linear-gradient(135deg, var(--accent-soft), var(--yellow-soft));
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--border);
   backdrop-filter: blur(8px);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(44, 63, 112, 0.1);
 }
-.header-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-.brand { color: var(--text); font-weight: 700; text-decoration: none; letter-spacing: 0.4px; }
-.nav a { color: var(--text); text-decoration: none; margin-left: 16px; font-weight: 500; }
-.nav a:hover, .nav a.active { color: var(--brand); }
+.header-inner { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  height: 64px; 
+  gap: 20px;
+}
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-placeholder {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 18px;
+}
+.brand { 
+  color: var(--text); 
+  font-weight: 700; 
+  text-decoration: none; 
+  letter-spacing: 0.4px; 
+  font-size: 1.25rem;
+}
+.nav a { 
+  color: var(--text); 
+  text-decoration: none; 
+  margin-left: 20px; 
+  font-weight: 500; 
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.nav a:hover, .nav a.active { 
+  color: var(--brand); 
+  background: var(--panel);
+}
 
 main { padding: 24px 0 64px; }
 .view { display: none; }
@@ -443,11 +483,11 @@ textarea { resize: vertical; }
 }
 .community-icon::before { content: "C"; }
 .training-icon {
-  background: linear-gradient(135deg, var(--brand), #ff6b6b);
+  background: linear-gradient(135deg, var(--brand), var(--pink));
 }
 .training-icon::before { content: "T"; }
 .tracking-icon {
-  background: linear-gradient(135deg, var(--success), #68d391);
+  background: linear-gradient(135deg, var(--success), var(--accent-soft));
 }
 .tracking-icon::before { content: "L"; }
 
