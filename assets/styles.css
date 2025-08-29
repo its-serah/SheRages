@@ -49,17 +49,15 @@ body {
   align-items: center;
   gap: 12px;
 }
-.logo-placeholder {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--brand), var(--accent));
+.logo {
+  width: 48px;
+  height: 48px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: white;
-  font-size: 18px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+.logo:hover {
+  transform: scale(1.05);
 }
 .brand { 
   color: var(--text); 
