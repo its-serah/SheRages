@@ -2,6 +2,61 @@
 (function() {
   'use strict';
 
+  // Simple toast notifications
+  const ui = (() => {
+    let container;
+    function ensureContainer() {
+      if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+      }
+    }
+    function toast(message, type = 'info', timeout = 3000) {
+      ensureContainer();
+      const el = document.createElement('div');
+      el.className = `toast ${type}`;
+      el.textContent = message;
+      container.appendChild(el);
+      requestAnimationFrame(() => el.classList.add('show'));
+      setTimeout(() => {
+        el.classList.remove('show');
+        setTimeout(() => el.remove(), 250);
+      }, timeout);
+    }
+    return { toast };
+  })();
+
+  // Animations: reveal-on-scroll and microinteractions
+  const animations = (() => {
+    let observer;
+    const selectors = [
+      '.feature-item', '.feature-card', '.testimonial', '.stat-card', '.card', '.post', '.sym-item'
+    ];
+    function markReveal(el) {
+      if (!el) return;
+      el.classList.add('reveal');
+      if (observer) observer.observe(el);
+    }
+    function observeAll() {
+      selectors.forEach(sel => document.querySelectorAll(sel).forEach(markReveal));
+    }
+    function init() {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return; // Respect reduced motion
+      observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      observeAll();
+    }
+    return { init, markReveal, observeAll };
+  })();
+
   // Storage helpers
   const store = {
     get(key, fallback) {
@@ -23,12 +78,139 @@
     'Advocacy','Diagnosis','Cardio','Pain','Mental Health','Medication','Reproductive Health','Research','Insurance','Support'
   ];
 
-  // State
+  // Dummy data for screenshots
+  const DUMMY_POSTS = [
+    {
+      id: 'p1',
+      text: "Finally got my cardiologist to take my chest pain seriously after showing him 3 months of symptom logs from SheRages. The data made all the difference! 💪",
+      topic: "Cardio",
+      location: "Beirut",
+      ts: Date.now() - 3600000,
+      author: "Maya K."
+    },
+    {
+      id: 'p2',
+      text: "The Gaslight Mode training really helped me practice assertive responses. Used them today when the doctor tried to dismiss my symptoms as anxiety. Got the tests I needed!",
+      topic: "Advocacy",
+      location: "Tripoli",
+      ts: Date.now() - 7200000,
+      author: "Lina H."
+    },
+    {
+      id: 'p3',
+      text: "Does anyone else experience heart palpitations that get worse at night? My doctor says it's stress but I've been tracking patterns and it seems hormonal.",
+      topic: "Cardio",
+      location: "Saida",
+      ts: Date.now() - 10800000,
+      author: "Rania M."
+    },
+    {
+      id: 'p4',
+      text: "Support group meeting tomorrow at AUB Medical Center, 6 PM. Topic: Navigating insurance claims for specialized care. All welcome! 🤝",
+      topic: "Support",
+      location: "Beirut",
+      ts: Date.now() - 14400000,
+      author: "Nour T."
+    },
+    {
+      id: 'p5',
+      text: "After months of being told my fatigue was 'normal', finally got diagnosed with an autoimmune condition. Never give up advocating for yourself!",
+      topic: "Diagnosis",
+      location: "Jbeil",
+      ts: Date.now() - 18000000,
+      author: "Sarah A."
+    },
+    {
+      id: 'p6',
+      text: "New research paper published on gender bias in cardiovascular diagnosis in Lebanon. Sharing the link in comments. We need systemic change! 📊",
+      topic: "Research",
+      location: "Beirut",
+      ts: Date.now() - 21600000,
+      author: "Dr. Zeina K."
+    }
+  ];
+
+  const DUMMY_SYMPTOMS = [
+    {
+      id: 's1',
+      date: new Date(Date.now() - 86400000).toISOString().split('T')[0],
+      name: "Chest pain",
+      severity: 7,
+      heartRate: 95,
+      bpSys: 130,
+      bpDia: 85,
+      notes: "Sharp pain on left side, lasted 20 minutes. Happened during rest, not exertion.",
+      ts: Date.now() - 86400000
+    },
+    {
+      id: 's2',
+      date: new Date(Date.now() - 172800000).toISOString().split('T')[0],
+      name: "Heart palpitations",
+      severity: 6,
+      heartRate: 110,
+      bpSys: 125,
+      bpDia: 80,
+      notes: "Irregular heartbeat, felt like skipping. Occurred after coffee.",
+      ts: Date.now() - 172800000
+    },
+    {
+      id: 's3',
+      date: new Date(Date.now() - 259200000).toISOString().split('T')[0],
+      name: "Fatigue",
+      severity: 8,
+      heartRate: 72,
+      bpSys: 115,
+      bpDia: 75,
+      notes: "Extreme exhaustion despite 9 hours sleep. Unable to complete daily activities.",
+      ts: Date.now() - 259200000
+    },
+    {
+      id: 's4',
+      date: new Date(Date.now() - 345600000).toISOString().split('T')[0],
+      name: "Dizziness",
+      severity: 5,
+      heartRate: 88,
+      bpSys: 110,
+      bpDia: 70,
+      notes: "Light-headed when standing up quickly. Improved after hydration.",
+      ts: Date.now() - 345600000
+    },
+    {
+      id: 's5',
+      date: new Date().toISOString().split('T')[0],
+      name: "Shortness of breath",
+      severity: 6,
+      heartRate: 98,
+      bpSys: 135,
+      bpDia: 88,
+      notes: "Difficulty breathing during light activity. Had to stop walking up stairs.",
+      ts: Date.now()
+    }
+  ];
+
+  const DUMMY_GAME = {
+    score: 850,
+    xp: 450,
+    level: 5,
+    streak: 7,
+    lastPlayDate: new Date().toISOString(),
+    played: ['s1', 's2', 's3', 's4', 's5'],
+    badges: [
+      { id: 'first-step', name: 'First Step', icon: '🌟', desc: 'Complete your first scenario', earned: true },
+      { id: 'week-warrior', name: 'Week Warrior', icon: '💪', desc: '7-day streak', earned: true },
+      { id: 'advocate', name: 'Advocate', icon: '📢', desc: 'Level 5 reached', earned: true },
+      { id: 'persistent', name: 'Persistent', icon: '🎯', desc: '10 scenarios completed', earned: false }
+    ],
+    reminders: { freq: 'daily', nextAt: Date.now() + 86400000, notifs: 'enabled' }
+  };
+
+  // State - Check for demo mode or use stored data
+  const isDemoMode = localStorage.getItem('demoMode') === 'true';
   const state = {
     view: 'home',
-    posts: store.get(KEYS.posts, []),
+    posts: isDemoMode ? DUMMY_POSTS : store.get(KEYS.posts, []),
     topics: store.get(KEYS.topics, DEFAULT_TOPICS),
-    game: store.get(KEYS.game, { 
+    game: isDemoMode ? DUMMY_GAME : store.get(KEYS.game, { 
       score: 0, 
       xp: 0, 
       level: 1, 
@@ -38,7 +220,9 @@
       badges: [],
       reminders: { freq: 'none', nextAt: 0, notifs: 'default' } 
     }),
-    symptoms: store.get(KEYS.symptoms, [])
+    symptoms: isDemoMode ? DUMMY_SYMPTOMS : store.get(KEYS.symptoms, []),
+    _loadedPosts: false,
+    _loadedSymptoms: false
   };
 
   // Elements
@@ -144,10 +328,38 @@
   }
 
   // Community logic
+  function mapSupabasePost(row) {
+    return {
+      id: row.id,
+      text: row.text,
+      topic: row.topic,
+      location: row.location,
+      ts: row.ts ? new Date(row.ts).getTime() : (row.created_at ? new Date(row.created_at).getTime() : Date.now()),
+      user_id: row.user_id || null
+    };
+  }
+
+  async function loadPostsFromSupabase() {
+    if (!window.sheragesSupabase?.enabled || state._loadedPosts) return;
+    els.feed.innerHTML = '<div class="note">Loading feed…</div>';
+    const { data, error } = await window.sheragesSupabase.posts.list();
+    if (error) {
+      ui.toast('Failed to load posts', 'error');
+      return;
+    }
+    state.posts = (data || []).map(mapSupabasePost);
+    state._loadedPosts = true;
+    renderFeed();
+  }
+
   function renderFeed() {
     // Collect filters
     const locChecks = Array.from(document.querySelectorAll('input[name="loc"]:checked')).map(x => x.value);
     const topicChecks = Array.from(els.topicFilters.querySelectorAll('input[name="topic"]:checked')).map(x => x.value);
+
+    if (window.sheragesSupabase?.enabled && !state._loadedPosts) {
+      loadPostsFromSupabase();
+    }
 
     const posts = state.posts
       .slice()
@@ -161,14 +373,21 @@
 
     els.feed.innerHTML = posts.map(p => {
       const meta = `${escapeHtml(p.location)} • ${escapeHtml(p.topic)} • ${fmtDate(p.ts)}`;
-      return `<article class="post" data-id="${p.id}">
-        <div class="meta">${meta}</div>
-        <div class="body">${escapeHtml(p.text)}</div>
-      </article>`;
+      return `<article class=\"post\" data-id=\"${p.id}\">\n        <div class=\"meta\">${meta}</div>\n        <div class=\"body\">${escapeHtml(p.text)}</div>\n      </article>`;
     }).join('');
+    animations.observeAll();
   }
 
-  function addPost(text, topic, location) {
+  async function addPost(text, topic, location) {
+    if (window.sheragesSupabase?.enabled) {
+      const { data, error } = await window.sheragesSupabase.posts.create({ text, topic, location });
+      if (error) { ui.toast('Failed to post', 'error'); return; }
+      const mapped = mapSupabasePost(data);
+      state.posts.unshift(mapped);
+      renderFeed();
+      ui.toast('Posted!', 'success');
+      return;
+    }
     const post = { id: uid(), text, topic, location, ts: nowTs() };
     state.posts.push(post); store.set(KEYS.posts, state.posts);
     renderFeed();
@@ -547,9 +766,35 @@
   }
 
   // Symptoms logic
+  function mapSupabaseSymptom(row) {
+    return {
+      id: row.id,
+      dateTs: row.date_ts || (row.dateTs ?? Date.now()),
+      name: row.name,
+      severity: row.severity,
+      hr: row.hr,
+      sys: row.sys,
+      dia: row.dia,
+      notes: row.notes || ''
+    };
+  }
+
+  async function loadSymptomsFromSupabase() {
+    if (!window.sheragesSupabase?.enabled || state._loadedSymptoms === true) return;
+    els.symList.innerHTML = '<div class="note">Loading entries…</div>';
+    const { data, error } = await window.sheragesSupabase.symptoms.list();
+    if (error) { ui.toast('Failed to load symptoms', 'error'); return; }
+    state.symptoms = (data || []).map(mapSupabaseSymptom);
+    state._loadedSymptoms = true;
+    renderSymptoms();
+  }
+
   function renderSymptoms() {
     const from = els.fromDate.value ? new Date(els.fromDate.value).getTime() : -Infinity;
     const to = els.toDate.value ? new Date(els.toDate.value).getTime() + 24*3600*1000 - 1 : Infinity;
+    if (window.sheragesSupabase?.enabled && !state._loadedSymptoms) {
+      loadSymptomsFromSupabase();
+    }
     const items = state.symptoms.slice().sort((a,b)=>b.dateTs-a.dateTs).filter(s => s.dateTs >= from && s.dateTs <= to);
     if (items.length === 0) { els.symList.innerHTML = '<div class="note">No entries yet for this range.</div>'; return; }
     els.symList.innerHTML = items.map(s => {
@@ -558,14 +803,23 @@
         s.hr ? `${s.hr} bpm` : null,
         (s.sys && s.dia) ? `${s.sys}/${s.dia} mmHg` : null
       ].filter(Boolean).join(' • ');
-      return `<div class="sym-item">
-        <div class="meta">${escapeHtml(meta + (vitals ? ' • ' + vitals : ''))}</div>
-        <div class="body"><strong>${escapeHtml(s.name)}</strong>${s.notes ? ': ' + escapeHtml(s.notes) : ''}</div>
-      </div>`;
+      return `<div class=\"sym-item\">\n        <div class=\"meta\">${escapeHtml(meta + (vitals ? ' • ' + vitals : ''))}</div>\n        <div class=\"body\"><strong>${escapeHtml(s.name)}</strong>${s.notes ? ': ' + escapeHtml(s.notes) : ''}</div>\n      </div>`;
     }).join('');
+    animations.observeAll();
   }
 
-  function addSymptomEntry(entry) {
+  async function addSymptomEntry(entry) {
+    if (window.sheragesSupabase?.enabled) {
+      // Supabase expects date_ts
+      const payload = { ...entry, date_ts: entry.dateTs };
+      const { data, error } = await window.sheragesSupabase.symptoms.create(payload);
+      if (error) { ui.toast('Failed to save entry', 'error'); return; }
+      const mapped = mapSupabaseSymptom(data);
+      state.symptoms.unshift(mapped);
+      renderSymptoms();
+      ui.toast('Symptom logged', 'success');
+      return;
+    }
     state.symptoms.push(entry); store.set(KEYS.symptoms, state.symptoms); renderSymptoms();
   }
 
@@ -645,12 +899,265 @@
     els.exportCsvBtn.addEventListener('click', exportCSV);
   }
 
+  // Authentication
+  const auth = {
+    authenticated: store.get('authenticated', false),
+    demoMode: false,
+    
+    showLanding() {
+      document.getElementById('landing-page').style.display = 'block';
+      document.getElementById('app-content').style.display = 'none';
+    },
+    
+    showApp() {
+      document.getElementById('landing-page').style.display = 'none';
+      document.getElementById('app-content').style.display = 'block';
+    },
+    
+    openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+    },
+    
+    closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    },
+    
+    async login(email, password) {
+      // Use Supabase if configured; fallback to demo local auth
+      try {
+        if (window.sheragesSupabase?.enabled) {
+          const { error } = await window.sheragesSupabase.auth.signIn({ email, password });
+          if (error) { ui.toast(error.message || 'Login failed', 'error'); return; }
+          this.authenticated = true;
+          store.set('authenticated', true);
+          ui.toast('Logged in', 'success');
+        } else {
+          this.authenticated = true;
+          store.set('authenticated', true);
+        }
+        this.closeModal('login-modal');
+        this.showApp();
+      } catch (e) {
+        ui.toast('Login error', 'error');
+      }
+    },
+    
+    async signup(name, email, password, location) {
+      try {
+        if (window.sheragesSupabase?.enabled) {
+          const { error } = await window.sheragesSupabase.auth.signUp({ name, email, password, location });
+          if (error) { ui.toast(error.message || 'Signup failed', 'error'); return; }
+          ui.toast('Check your email to confirm your account.', 'success');
+          this.closeModal('signup-modal');
+          // Stay on landing; do not auto-login
+          return;
+        } else {
+          this.authenticated = true;
+          store.set('authenticated', true);
+          this.closeModal('signup-modal');
+          this.showApp();
+        }
+      } catch (e) {
+        ui.toast('Signup error', 'error');
+      }
+    },
+    
+    startDemo() {
+      this.demoMode = true;
+      localStorage.setItem('demoMode', 'true');
+      // Load dummy data into state
+      state.posts = DUMMY_POSTS;
+      state.symptoms = DUMMY_SYMPTOMS;
+      state.game = DUMMY_GAME;
+      // Save to localStorage so it persists
+      store.set(KEYS.posts, DUMMY_POSTS);
+      store.set(KEYS.symptoms, DUMMY_SYMPTOMS);
+      store.set(KEYS.game, DUMMY_GAME);
+      this.showApp();
+      // Jump straight to the home view to show everything
+      location.hash = '#home';
+      ui.toast('Demo mode activated with sample data!', 'success');
+    },
+    
+    init() {
+      if (window.sheragesSupabase?.enabled) {
+        // React to auth state changes
+        window.sheragesSupabase.auth.onAuthStateChange(async (_event, session) => {
+          if (session?.user) {
+            this.authenticated = true;
+            store.set('authenticated', true);
+            this.showApp();
+          } else if (!this.demoMode) {
+            this.authenticated = false;
+            store.set('authenticated', false);
+            this.showLanding();
+          }
+        });
+      }
+      if (this.authenticated || this.demoMode) {
+        this.showApp();
+      } else {
+        this.showLanding();
+      }
+    }
+  };
+  
+  function bindAuthEvents() {
+    // Landing page auth buttons
+    document.getElementById('show-login')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.openModal('login-modal');
+    });
+    
+    document.getElementById('show-signup')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.openModal('signup-modal');
+    });
+    // Also bind any elements with .open-signup (landing CTAs)
+    document.querySelectorAll('.open-signup').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        auth.openModal('signup-modal');
+      });
+    });
+    
+    document.getElementById('try-demo')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.startDemo();
+    });
+    
+    // Modal close buttons
+    document.querySelectorAll('.modal-close').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const modal = btn.closest('.modal');
+        modal.classList.remove('active');
+      });
+    });
+    
+    // Modal backdrop clicks
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    });
+    
+    // Login form
+    document.getElementById('login-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      auth.login(email, password);
+    });
+    
+    // Signup form
+    document.getElementById('signup-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const location = document.getElementById('signup-location').value;
+      auth.signup(name, email, password, location);
+    });
+    
+    // Demo buttons
+    document.querySelectorAll('.demo-button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        auth.startDemo();
+      });
+    });
+    
+    // Switch between login and signup
+    document.getElementById('switch-to-signup')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.closeModal('login-modal');
+      auth.openModal('signup-modal');
+    });
+    
+    document.getElementById('switch-to-login')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.closeModal('signup-modal');
+      auth.openModal('login-modal');
+    });
+  }
+
+  // Testimonial Slider
+  const testimonialSlider = {
+    currentSlide: 0,
+    totalSlides: 0,
+    slider: null,
+    dots: null,
+    
+    init() {
+      this.slider = document.getElementById('testimonials-slider');
+      this.dots = document.getElementById('testimonial-dots');
+      
+      if (!this.slider) return; // Not on landing page
+      
+      this.totalSlides = this.slider.children.length;
+      
+      // Bind controls
+      const prevBtn = document.getElementById('prev-testimonial');
+      const nextBtn = document.getElementById('next-testimonial');
+      
+      if (prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => this.prevSlide());
+        nextBtn.addEventListener('click', () => this.nextSlide());
+      }
+      
+      // Bind dots
+      if (this.dots) {
+        this.dots.addEventListener('click', (e) => {
+          if (e.target.classList.contains('slider-dot')) {
+            const slideIndex = parseInt(e.target.dataset.slide);
+            this.goToSlide(slideIndex);
+          }
+        });
+      }
+      
+      // Auto-advance every 6 seconds
+      setInterval(() => this.nextSlide(), 6000);
+    },
+    
+    goToSlide(index) {
+      this.currentSlide = index;
+      if (this.currentSlide >= this.totalSlides) this.currentSlide = 0;
+      if (this.currentSlide < 0) this.currentSlide = this.totalSlides - 1;
+      
+      // Update slider position
+      const translateX = -this.currentSlide * 100;
+      this.slider.style.transform = `translateX(${translateX}%)`;
+      
+      // Update dots
+      if (this.dots) {
+        this.dots.querySelectorAll('.slider-dot').forEach((dot, i) => {
+          dot.classList.toggle('active', i === this.currentSlide);
+        });
+      }
+    },
+    
+    nextSlide() {
+      this.goToSlide(this.currentSlide + 1);
+    },
+    
+    prevSlide() {
+      this.goToSlide(this.currentSlide - 1);
+    }
+  };
+
   // Start
   function init() {
+    bindAuthEvents();
+    auth.init();
+    testimonialSlider.init();
     initTopicsUI();
     bindEvents();
     onHashChange();
     checkDueReminderOnLoad();
+    animations.init();
   }
 
   document.addEventListener('DOMContentLoaded', init);

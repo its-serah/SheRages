@@ -3,30 +3,259 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SheRages</title>
+  <title>SheRages - Empowering Women's Healthcare Advocacy</title>
   <meta name="description" content="SheRages — community, training, and symptom logging to resist medical misogyny.">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="brand-section">
-        <img src="assets/sheragesLogo.png" alt="SheRages Logo" class="logo">
-        <a class="brand" href="#home" data-nav>SheRages</a>
+  <!-- Landing Page -->
+  <div id="landing-page" class="landing-page">
+    <!-- Landing Header -->
+    <header class="landing-header">
+      <div class="container">
+        <nav class="landing-nav">
+          <div class="landing-logo">
+            <img src="assets/sheragesLogo.png" alt="SheRages Logo">
+            <a href="#" class="landing-brand">SheRages</a>
+          </div>
+          <div class="auth-buttons">
+            <button class="btn-login" id="show-login">Log In</button>
+            <button class="btn-signup" id="show-signup">Sign Up</button>
+          </div>
+        </nav>
       </div>
-      <nav class="nav">
-        <a href="#home" data-nav>Home</a>
-        <a href="#community" data-nav>Community</a>
-        <a href="#simulator" data-nav>Gaslight Mode</a>
-        <a href="#symptoms" data-nav>Symptom Log</a>
-      </nav>
-    </div>
-  </header>
+    </header>
 
-  <main id="app" class="container">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Break the Silence</h1>
+          <p class="hero-subtitle">Build Your Power</p>
+          <p class="hero-description">
+            SheRages empowers women to advocate for better healthcare through community support, 
+            interactive training, and evidence building. Join thousands fighting medical misogyny.
+          </p>
+          <div class="hero-cta">
+            <button class="cta-primary open-signup">Get Started Free</button>
+            <button class="cta-secondary demo-button">Try Demo</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section landing-section">
+      <div class="container">
+        <h2 class="section-title">Everything You Need to Advocate</h2>
+        <p class="section-subtitle">
+          From connecting with your community to building unshakeable confidence in medical settings.
+        </p>
+        
+        <div class="features-grid">
+          <div class="feature-item community-feature">
+            <div class="feature-item-icon">C</div>
+            <h3>Community Support</h3>
+            <p>Connect with women across Lebanon. Share experiences from Beirut to Tripoli, find your voice in a judgment-free space.</p>
+          </div>
+          
+          <div class="feature-item training-feature">
+            <div class="feature-item-icon">T</div>
+            <h3>Gaslight Mode Training</h3>
+            <p>Level up your advocacy skills through gamified scenarios. Practice responses to dismissive doctors and build confidence.</p>
+          </div>
+          
+          <div class="feature-item tracking-feature">
+            <div class="feature-item-icon">L</div>
+            <h3>Evidence Building</h3>
+            <p>Track symptoms, log vital signs, and build your medical history. Export data to share with healthcare providers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section landing-section">
+      <div class="container">
+        <h2 class="section-title">Stories of Strength</h2>
+        <p class="section-subtitle">Real women, real results, real change.</p>
+        
+        <div class="testimonials-container">
+          <div class="testimonials-slider" id="testimonials-slider">
+            <div class="testimonial">
+              <img class="testimonial-image" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop&crop=face" alt="Sarah from Beirut">
+              <div class="testimonial-content">
+                <p class="testimonial-text">
+                  "After using Gaslight Mode for two weeks, I finally stood up to my doctor. 
+                  I got the tests I needed and a proper diagnosis."
+                </p>
+                <div class="testimonial-author">Sarah</div>
+                <div class="testimonial-location">Beirut</div>
+              </div>
+            </div>
+            
+            <div class="testimonial">
+              <img class="testimonial-image" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop&crop=face" alt="Lara from Saida">
+              <div class="testimonial-content">
+                <p class="testimonial-text">
+                  "The community gave me strength when I felt alone. Now I know my symptoms 
+                  aren't 'just stress' - they're real and valid."
+                </p>
+                <div class="testimonial-author">Lara</div>
+                <div class="testimonial-location">Saida</div>
+              </div>
+            </div>
+            
+            <div class="testimonial">
+              <img class="testimonial-image" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop&crop=face" alt="Nour from Tripoli">
+              <div class="testimonial-content">
+                <p class="testimonial-text">
+                  "The symptom log helped me show my cardiologist real patterns. 
+                  It probably saved my life."
+                </p>
+                <div class="testimonial-author">Nour</div>
+                <div class="testimonial-location">Tripoli</div>
+              </div>
+            </div>
+            
+            <div class="testimonial">
+              <img class="testimonial-image" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop&crop=face" alt="Rania from Jbeil">
+              <div class="testimonial-content">
+                <p class="testimonial-text">
+                  "SheRages taught me that being assertive isn't being difficult. 
+                  I finally got the specialist referral I needed after months of being dismissed."
+                </p>
+                <div class="testimonial-author">Rania</div>
+                <div class="testimonial-location">Jbeil</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="slider-controls">
+            <button class="slider-btn" id="prev-testimonial" aria-label="Previous testimonial">‹</button>
+            <button class="slider-btn" id="next-testimonial" aria-label="Next testimonial">›</button>
+          </div>
+          
+          <div class="slider-dots" id="testimonial-dots">
+            <div class="slider-dot active" data-slide="0"></div>
+            <div class="slider-dot" data-slide="1"></div>
+            <div class="slider-dot" data-slide="2"></div>
+            <div class="slider-dot" data-slide="3"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section landing-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to Reclaim Your Healthcare?</h2>
+          <p class="cta-text">
+            Join thousands of women building evidence, finding their voice, and demanding better care.
+          </p>
+          <div class="hero-cta">
+            <button class="cta-primary open-signup">Start Your Journey</button>
+            <button class="cta-secondary demo-button">Try Demo First</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Authentication Modals -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <div class="modal-header">
+        <h2 class="modal-title">Welcome Back</h2>
+        <p class="modal-subtitle">Continue your advocacy journey</p>
+      </div>
+      <form class="auth-form" id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required>
+        </div>
+        <button type="submit" class="auth-submit">Log In</button>
+        <div class="auth-divider"><span>or</span></div>
+        <button type="button" class="demo-button">Try Demo Mode</button>
+      </form>
+      <div class="auth-switch">
+        Don't have an account? 
+        <button type="button" id="switch-to-signup">Sign up</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="signup-modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <div class="modal-header">
+        <h2 class="modal-title">Join SheRages</h2>
+        <p class="modal-subtitle">Start building your advocacy toolkit</p>
+      </div>
+      <form class="auth-form" id="signup-form">
+        <div class="form-group">
+          <label for="signup-name">Name</label>
+          <input type="text" id="signup-name" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-location">Location</label>
+          <select id="signup-location" required>
+            <option value="">Select your city</option>
+            <option value="Beirut">Beirut</option>
+            <option value="Saida">Saida</option>
+            <option value="Sour">Sour</option>
+            <option value="Tripoli">Tripoli</option>
+            <option value="Jbeil">Jbeil</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <button type="submit" class="auth-submit">Create Account</button>
+        <div class="auth-divider"><span>or</span></div>
+        <button type="button" class="demo-button">Try Demo Mode</button>
+      </form>
+      <div class="auth-switch">
+        Already have an account? 
+        <button type="button" id="switch-to-login">Log in</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App Content -->
+  <div id="app-content">
+    <!-- App Header -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand-section">
+          <img src="assets/sheragesLogo.png" alt="SheRages Logo" class="logo">
+          <a class="brand" href="#home" data-nav>SheRages</a>
+        </div>
+        <nav class="nav">
+          <a href="#home" data-nav>Dashboard</a>
+          <a href="#community" data-nav>Community</a>
+          <a href="#simulator" data-nav>Gaslight Mode</a>
+          <a href="#symptoms" data-nav>Symptom Log</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
 
     <!-- HOME / ABOUT -->
-    <section id="home" class="view" aria-label="Home">
+    <section id="home" class="view" aria-label="Dashboard">
       <div class="hero">
         <h1>SheRages</h1>
         <p class="hero-tagline">Your voice, your evidence, your power.</p>
@@ -295,14 +524,23 @@
       <div id="symList" class="sym-list"></div>
     </section>
 
-  </main>
+    </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <small>Prototype — data stored locally only. No emojis are used anywhere on this site.</small>
-    </div>
-  </footer>
+    <footer class="site-footer">
+      <div class="container">
+        <small>Prototype — data stored locally only. No emojis are used anywhere on this site.</small>
+      </div>
+    </footer>
+  </div>
 
+  <!-- Supabase (UMD) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase-js.min.js"></script>
+  <!-- Config: sample first, then optional local override (ignored in git) -->
+  <script src="assets/config.sample.js"></script>
+  <script src="assets/config.local.js"></script>
+  <!-- Supabase client wrapper -->
+  <script src="assets/supabase-client.js"></script>
+  <!-- App -->
   <script src="assets/app.js"></script>
 </body>
 </html>

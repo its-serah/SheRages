@@ -30,3 +30,6 @@ node_modules/
 # Temporary folders
 tmp/
 temp/
+
+# Local config (Supabase)
+assets/config.local.js

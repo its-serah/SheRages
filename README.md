@@ -96,6 +96,41 @@ Alternatively, you can open `index.html` directly in your browser.
 - Add vital signs and detailed notes
 - Export data as CSV for medical appointments
 
+## Backend: Supabase (optional)
+
+You can use Supabase to add real authentication and storage for Community posts and the Symptom Log. If not configured, the app runs fully in demo mode with localStorage.
+
+1) Create local config (ignored by git)
+
+- Copy `assets/config.sample.js` to `assets/config.local.js`
+- Fill with your project keys:
+
+```html
+<script>
+  window.SHERAGES_CONFIG = {
+    SUPABASE_URL: 'https://YOUR-PROJECT.supabase.co',
+    SUPABASE_ANON_KEY: 'YOUR_PUBLIC_ANON_KEY'
+  };
+</script>
+```
+
+2) Create tables and policies
+
+- Open Supabase → SQL Editor
+- Paste the contents of `supabase/schema.sql` and run it
+
+3) Use the app
+
+- Sign up or log in via the landing modals
+- Community posts and Symptom entries will use Supabase when configured; otherwise they fall back to localStorage
+
+Security notes
+- Tables are protected with Row Level Security (RLS)
+- Posts: public read, authenticated users can insert their own
+- Symptoms: only the authenticated user can read/insert their own
+
+---
+
 ## 🔒 Privacy & Data
 
 - **Local Storage Only**: All data stays in your browser

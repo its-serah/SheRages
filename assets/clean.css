@@ -1,0 +1,154 @@
+/* SheRages Clean Theme Overrides (minimal, elegant, readable)
+   This stylesheet intentionally overrides the bolder/glassy theme with a simpler,
+   calmer look that matches the logo colors, increases whitespace, and reduces
+   gradients, blur, and animation noise. */
+
+:root {
+  /* Toned variables for calmer UI */
+  --bg: #F7F8FB;
+  --panel: #FFFFFF;
+  --surface: #FFFFFF;
+  --border: #E6E8F0;
+  --border-soft: #EEF1F6;
+  --text: #1F2937;
+  --text-light: #4B5563;
+  --text-muted: #6B7280;
+
+  /* Keep brand, but soften alts */
+  --primary: #2F4464;       /* Logo blueberry */
+  --primary-alt1: #2B3C58;  /* Slightly darker */
+  --primary-alt2: #24344D;  /* Slightly darker */
+
+  /* Accents used sparingly */
+  --red: #D63384;           /* Brand accent */
+  --accent-orange: #EA580C; /* slightly deeper orange */
+
+  /* Shadows (subtle) */
+  --shadow: rgba(17, 24, 39, 0.08);
+  --shadow-soft: rgba(17, 24, 39, 0.05);
+  --shadow-strong: rgba(17, 24, 39, 0.12);
+}
+
+/* Layout & backgrounds */
+html, body { background: var(--bg) !important; }
+body { color: var(--text) !important; }
+
+/* Remove decorative background layers */
+.landing-page { background: transparent !important; }
+.landing-page::before, .landing-page::after { content: none !important; display: none !important; }
+
+/* Header cleanup */
+header, .landing-header, .site-header {
+  background: rgba(255,255,255,0.95) !important;
+  backdrop-filter: none !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* Logo restrained */
+.landing-logo img { width: 64px !important; height: 64px !important; border-radius: 12px !important; box-shadow: none !important; }
+.logo { width: 48px !important; height: 48px !important; border-radius: 10px !important; box-shadow: none !important; }
+
+/* Headings: no gradient text */
+.hero-title, .section-title, .cta-title, .modal-title,
+.game-header h2, .hero h1, .stat-value {
+  background: none !important;
+  -webkit-text-fill-color: var(--text) !important;
+  color: var(--text) !important;
+  text-shadow: none !important;
+}
+
+.hero-subtitle { color: var(--primary) !important; text-transform: none !important; letter-spacing: 0 !important; }
+.hero-description { color: var(--text-light) !important; }
+
+/* Sections simple backgrounds */
+.features-section, .testimonials-section, .cta-section { background: transparent !important; }
+.site-footer { background: #F3F6FA !important; }
+
+/* Cards and surfaces: flat, bordered */
+.card, .feature-card, .post, .testimonial, .stat-card, .progress-section,
+.story-content, .quote-bubble, .sym-item, .filters {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 1px 2px rgba(17,24,39,0.04) !important;
+  backdrop-filter: none !important;
+  border-radius: 14px !important;
+}
+
+/* Feature icons: single brand color */
+.feature-item-icon, .community-icon, .training-icon, .tracking-icon {
+  background: var(--primary) !important;
+  box-shadow: none !important;
+}
+
+/* Nav links: calm hover */
+.nav a:hover, .nav a.active {
+  background: #EEF2F7 !important;
+  color: var(--primary) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border: 1px solid #DEE3EA !important;
+}
+
+/* Buttons: solid primary and simple outline */
+.button, .cta-primary, .btn-signup, .slider-btn {
+  background: var(--primary) !important;
+  color: #fff !important;
+  border: 1px solid var(--primary) !important;
+  box-shadow: none !important;
+  border-radius: 12px !important;
+}
+.button:hover, .cta-primary:hover, .btn-signup:hover, .slider-btn:hover {
+  background: var(--primary-alt1) !important;
+}
+
+/* Secondary/outline buttons */
+.button.outline, .cta-secondary, .btn-login, .button.outline.red-accent {
+  background: #fff !important;
+  color: var(--primary) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+}
+.button.outline:hover, .cta-secondary:hover, .btn-login:hover, .button.outline.red-accent:hover {
+  background: #F8FAFC !important;
+}
+
+/* Form fields */
+input[type="text"], input[type="number"], input[type="date"], select, textarea,
+.form-group input, .form-group select {
+  background: #fff !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus, textarea:focus,
+.form-group input:focus, .form-group select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(47,68,100,0.15) !important;
+}
+
+/* Progress bar simpler */
+.progress-bar { background: #E9EEF5 !important; box-shadow: none !important; }
+.progress-fill { background: var(--primary) !important; box-shadow: none !important; }
+
+/* Scenario surfaces */
+.sim .scenario { background: #fff !important; }
+.scenario-difficulty { background: #EEF2F7 !important; color: var(--primary) !important; }
+.feedback { background: #F8FAFC !important; box-shadow: none !important; }
+
+/* Slider dots */
+.slider-dot { background: #E5EAF1 !important; box-shadow: none !important; }
+.slider-dot.active { background: var(--primary) !important; box-shadow: none !important; transform: none !important; }
+
+/* Reduce animation intensity */
+.reveal { opacity: 0; transform: translateY(8px); }
+.reveal.in-view { opacity: 1; transform: translateY(0); transition: 300ms ease; }
+.button:active { transform: scale(0.99) !important; }
+
+/* Banner and alerts */
+.banner { background: #F6F8FB !important; border-left-color: var(--primary) !important; box-shadow: none !important; }
+.achievement-alert { background: var(--primary) !important; box-shadow: none !important; }
+
+/* Misc spacing tweaks */
+.hero-section { padding: 96px 0 80px !important; }
+.features-section, .testimonials-section, .cta-section { padding: 80px 0 !important; }
+
